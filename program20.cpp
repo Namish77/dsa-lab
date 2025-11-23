@@ -1,59 +1,50 @@
-// Program 20 - BFS DFS
-// Author: Namish (Roll 241478)
-
 #include <iostream>
+#include <vector>
 #include <queue>
 using namespace std;
 
-void BFS(int g[][10], int n, int start) {
-    int vis[10] = {0};
+void bfs(int start, vector<vector<int>> &graph, int n) {
+    vector<bool> visited(n, false);
     queue<int> q;
 
-    vis[start] = 1;
+    visited[start] = true;
     q.push(start);
 
-    cout << "BFS: ";
-    while (!q.empty()) {
-        int v = q.front(); q.pop();
-        cout << v << " ";
+    cout << "BFS Traversal: ";
 
-        for (int i=0;i<n;i++) {
-            if (g[v][i] && !vis[i]) {
-                vis[i] = 1;
-                q.push(i);
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        cout << node << " ";
+
+        for (int neighbour : graph[node]) {
+            if (!visited[neighbour]) {
+                visited[neighbour] = true;
+                q.push(neighbour);
             }
         }
     }
-    cout << "\n";
-}
-
-void DFSUtil(int g[][10], int v, int vis[], int n) {
-    vis[v] = 1;
-    cout << v << " ";
-    for (int i=0;i<n;i++) {
-        if (g[v][i] && !vis[i]) DFSUtil(g, i, vis, n);
-    }
-}
-
-void DFS(int g[][10], int n, int start) {
-    int vis[10] = {0};
-    cout << "DFS: ";
-    DFSUtil(g, start, vis, n);
-    cout << "\n";
+    cout << endl;
 }
 
 int main() {
-    int n = 5;
-    int g[10][10] = {
-        {0,1,1,0,0},
-        {1,0,1,1,0},
-        {1,1,0,1,1},
-        {0,1,1,0,1},
-        {0,0,1,1,0}
-    };
+    int n, edges;
+    cin >> n;
+    cin >> edges;
 
-    BFS(g, n, 0);
-    DFS(g, n, 0);
+    vector<vector<int>> graph(n);
+
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    int start;
+    cin >> start;
+
+    bfs(start, graph, n);
 
     return 0;
 }
