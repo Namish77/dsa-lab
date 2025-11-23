@@ -16,9 +16,16 @@ int binSearch(int arr[], int n, int key) {
 }
 
 int main() {
-    int arr[50], n, key;
+    int n, k; int arr[100];
+    cout << "Size: "; 
     cin >> n;
+    cout << "Enter sorted values:\n";
     for (int i=0;i<n;i++) cin >> arr[i];
-    cin >> key;
-    cout << binSearch(arr,n,key);
+    cout << "Search element: ";
+    cin >> k;
+
+    int idx = binSearch(arr,n,k);
+    if (idx!=-1) cout << "Found at index " << idx << endl;
+    else cout << "Not found\n";
+    return 0;
 }
